@@ -199,12 +199,16 @@ String culo = "culo y quiero usar \"esto\" "
 Es un objeto con muchos metodos piola
 
 - max(x, y) - encuentra el valor mas alto
+
 - min(x, y) - encuentra el valor mas bajo
+
 - abs(x) - valor absoluto
+
 - sqrt(x) - raiz cuadrada
+
 - random() - numero random entre 1 y 0
 
-
+  
 
 ## if and else statements
 
@@ -240,6 +244,7 @@ switch(expression) {
     // code block
     // The default keyword specifies some code to run if there is no case match
 }
+
 //example
 int day = 4;
 switch (day) {
@@ -402,6 +407,230 @@ for (String i : cars) {
 //example
 int[][] myNumbers = { {1, 2, 3, 4}, {5, 6, 7} };
 //getting variable
-myNumbers[1][2]
+myNumbers[1][2] 
+```
+
+
+
+## Methods
+
+A **method** is a block of code which only runs when it is called. You can pass data, known as parameters, into a method.
+
+A method must be declared within a class. It is defined with the name of the method, followed by parentheses **()**
+
+```java
+//example
+public class MyClass {
+  static void myMethod() {
+    // code to be executed
+  }
+}
+```
+
+- `myMethod()` is the name of the method
+- `static` means that the method belongs to the MyClass class and not an object of the MyClass class. 
+- `void` means that this method does not have a return value.
+
+### Call a Method
+
+```java
+public class MyClass {
+  static void myMethod() {
+    System.out.println("I just got executed!");
+  }
+
+  public static void main(String[] args) { //esto se usa para correr codigo
+    myMethod(); //corre el metodo
+  }
+}
+```
+
+### Parameters
+
+```java
+//example
+static void myMethod(String fname, int age) {
+	System.out.println(fname + " is " + age);
+}
+public static void main(String[] args) {
+    myMethod("Liam", 5);
+    myMethod("Jenny", 8);
+    myMethod("Anja", 31);
+}
+
+// Liam is 5
+// Jenny is 8
+// Anja is 31
+```
+
+### Return values
+
+If you want the method to return a value, you can use a primitive data type (such as `int`, `char`, etc.) instead of `void`, and use the `return` keyword inside the method:
+
+```java
+static int myMethod(int x) {
+    return 5 + x;
+}
+```
+
+### Method Overloading
+
+With **method overloading**, multiple methods can have the same name with different parameters
+
+```java
+//example
+int myMethod(int x)
+float myMethod(float x)
+double myMethod(double x, double y)
+```
+
+```java
+//example
+static int plusMethod(int x, int y) {
+  return x + y;
+}
+
+static double plusMethod(double x, double y) {
+  return x + y;
+}
+
+public static void main(String[] args) {
+  int myNum1 = plusMethod(8, 5);
+  double myNum2 = plusMethod(4.3, 6.26);
+  System.out.println("int: " + myNum1);
+  System.out.println("double: " + myNum2);
+}
+```
+
+### Static or Public
+
+Static methods can be called without creating objects while public methods must be called by creating objects.
+
+```java
+public class MyClass {
+  // Static method
+  static void myStaticMethod() {
+    System.out.println("Static methods can be called without creating objects");
+  }
+
+  // Public method
+  public void myPublicMethod() {
+    System.out.println("Public methods must be called by creating objects");
+  }
+
+  // Main method
+  public static void main(String[] args) {
+    myStaticMethod(); // Call the static method
+    // myPublicMethod(); This would compile an error
+
+    MyClass myObj = new MyClass(); // Create an object of MyClass
+    myObj.myPublicMethod(); // Call the public method on the object
+  }
+}
+```
+
+
+
+## Intro to OOP
+
+Classes and objects are the two main aspects of object-oriented programming. A class is a template for objects, and an object is an instance of a class.
+
+When the individual objects are created, they inherit all the variables and methods from the class.
+
+
+
+## Classes
+
+To create a class, use the keyword `class`:
+
+```java
+//example
+public class MyClass {
+  int x = 5;
+}
+```
+
+A class should always start with an uppercase first letter, and that the name of the java file should match the class name.
+
+## Objects
+
+An object is created from and inside a class.
+
+```java
+public class MyClass {
+  int x = 5;
+
+  public static void main(String[] args) {
+    MyClass myObj = new MyClass(); //new object
+    System.out.println(myObj.x); // prints 5 because it inherited the class properties
+  }
+}
+```
+
+You can create multiple objects of one class
+
+
+
+## Using Multiple Classes
+
+You can also create an object of a class and access it in another class. This is often used for better organization of classes (one class has all the attributes and methods, while the other class holds the `main()` method (code to be executed)).
+
+For this you would need to create multiple files in the same folder
+
+#### MyClass.java
+
+```java
+public class MyClass {
+  int x = 5;
+}
+```
+
+#### OtherClass.java
+
+```java
+class OtherClass {
+  public static void main(String[] args) {
+    MyClass myObj = new MyClass();
+    System.out.println(myObj.x);
+  }
+}
+```
+
+
+
+## Class Attributes
+
+The class called "`MyClass`" has two attributes: `x` and `y`
+
+```java
+public class MyClass {
+  int x = 5;
+  int y = 3;
+}
+```
+
+You can access attributes by creating an object of the class, and by using the dot syntax (`.`):
+
+```java
+MyClass myObj = new MyClass();
+System.out.println(myObj.x);
+```
+
+### Multiple objects
+
+If you create multiple objects of one class, you can change the attribute values in one object, without affecting the attribute values in the other
+
+```java
+public class MyClass {
+  int x = 5;
+
+  public static void main(String[] args) {
+    MyClass myObj1 = new MyClass();  // Object 1
+    MyClass myObj2 = new MyClass();  // Object 2
+    myObj2.x = 25;
+    System.out.println(myObj1.x);  // Outputs 5
+    System.out.println(myObj2.x);  // Outputs 25
+  }
+}
 ```
 
