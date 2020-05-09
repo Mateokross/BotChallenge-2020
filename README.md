@@ -1,15 +1,5 @@
 # Robocode 2020
 
-**Aca podemos meter:**
-
-- Un template para arrancar un robot nuevo (incluyendo)
-- Una lista de las acciones q puede hacer el robot
-- Una lista de los eventos
-- Una lista de estrategias/cachos de codigo
-- jesus
-
-
-
 [TOC]
 
 | Estrategia                                                   | Robot       | Programado | Testeado | /10  |
