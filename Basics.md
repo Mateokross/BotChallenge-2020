@@ -61,6 +61,10 @@
 
   3 * firepower.
 
+###### Gun heat
+
+
+
 ###### Collisions
 
 - Collision with another robot
