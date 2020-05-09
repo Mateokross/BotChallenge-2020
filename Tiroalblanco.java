@@ -1,32 +1,34 @@
 package teamrocket;
 import robocode.*;
-//import java.awt.Color;
+import java.awt.Color;
 
 // API help : https://robocode.sourceforge.io/docs/robocode/robocode/Robot.html
 
 /**
- * Tiroalblanco - a robot by (your name here)
+ * Tiroalblanco - a robot by (Tomi)
  */
 public class Tiroalblanco extends AdvancedRobot
 {
-	/**
-	 * run: Tiroalblanco's default behavior
-	 */
+	//run: Tiroalblanco's default behavior
+	 
 	public void run() {
-		// Initialization of the robot should be put here
-
-		// After trying out your robot, try uncommenting the import at the top,
-		// and the next line:
-
-		// setColors(Color.red,Color.blue,Color.green); // body,gun,radar
+		
+		setBodyColor(new Color(255,255,255));
+		setGunColor(new Color(255,0,0));
+		setRadarColor(new Color(0,0,0));
+		setBulletColor(new Color(164,16,201));
+		setScanColor(new Color(4,0,255));
+		
+		double conf = 0.65; // confianza de que le pegamos
+		double PMax = 3, Pmin = 0.1, Pot=2; // potencia max min y la que usamos posta
 	
 		// Robot main loop
 		while(true) {
 			// Replace the next 4 lines with any behavior you would like
-			ahead(500);
-			turnGunRight(360);
-			back(500);
-			turnGunRight(360);
+			ahead(conf);
+			turnGunRight(PMax);
+			back(Pmin);
+			turnGunRight(Pot);
 		}
 	}
 
@@ -34,23 +36,18 @@ public class Tiroalblanco extends AdvancedRobot
 	 * onScannedRobot: What to do when you see another robot
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
-		// Replace the next line with any behavior you would like
+	
 		fire(0.1);
 	}
 
-	/**
-	 * onHitByBullet: What to do when you're hit by a bullet
-	 */
+
+
+	//onHitByBullet: What to do when you're hit by a bullet
 	public void onHitByBullet(HitByBulletEvent e) {
-		// Replace the next line with any behavior you would like
-		back(10);
+			back(0);
 	}
-	
-	/**
-	 * onHitWall: What to do when you hit a wall
-	 */
+// onHitWall: What to do when you hit a wall
 	public void onHitWall(HitWallEvent e) {
-		// Replace the next line with any behavior you would like
-		back(0);
+			back(0);
 	}	
 }
