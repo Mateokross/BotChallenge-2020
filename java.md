@@ -427,10 +427,6 @@ public class MyClass {
 }
 ```
 
-- `myMethod()` is the name of the method
-- `static` means that the method belongs to the MyClass class and not an object of the MyClass class. 
-- `void` means that this method does not have a return value.
-
 ### Call a Method
 
 ```java
@@ -557,12 +553,12 @@ A class should always start with an uppercase first letter, and that the name of
 An object is created from and inside a class.
 
 ```java
-public class MyClass {
-  int x = 5;
+public class Car {
+  int wheels = 4;
 
   public static void main(String[] args) {
-    MyClass myObj = new MyClass(); //new object
-    System.out.println(myObj.x); // prints 5 because it inherited the class properties
+    Car volvo = new Car(); //new object
+    System.out.println(volvo.wheels); // prints 4 because it inherited the class properties
   }
 }
 ```
