@@ -91,7 +91,40 @@ Reducing the firepower to use just enough energy to kill an opponent would save 
 
 The formula to calculated the damage to enemy robot for given firepower is `4 * power + max(0, 2 * (power - 1) )`, where *power* is a value between 0.1 and 3. But usually, for some reasons, we do not really care about `max(0, 2 * (power - 1)` and just fire at power `enemyEnergy / 4`.
 
+#### Radar
+
+A radar in Robocode can turn a maximum of 45° or π/4 rad in a single tick. The radar scans robots up to 1200 units away. The angle that the radar rotates between two ticks creates what is called a radar arc, and every robot detected within the arc is sent to the `onScannedRobot()` method in order of distance from the scanning bot. The closest bot is detected first, while the furthest bot is detected last. By default, the `onScannedRobot()` method has the lowest event priority of all the event handlers in Robocode, so it is the last one to be triggered each tick.
+
+By default, Robocode hides radar arcs,can be enabled in Robocode's Preferences. (cuando probemos nuestro bot tenemos que hacer esto).
+
+###### Codigos importantes y tips fundamentales
+
+Your first action in `run()` should **always** be:
+
+```
+setAdjustGunForRobotTurn(true);
+setAdjustRadarForGunTurn(true);
+```
+
+This allows your robot's base, gun, and radar to rotate independently. It is practically essential for radar locks and any form of accurate targeting.
+
+One of the first actions your robot performs should be to turn the radar as much as possible. A simple implementation would be:
+
+```
+setTurnRadarRight(Double.POSITIVE_INFINITY);
+```
+
+This causes the radar to begin turning clockwise, forever. However, it may not be wise to always turn the radar clockwise. Sometimes, turning it counterclockwise might provide more information, faster. The optimal scan direction is the one with the shortest rotational difference to the angle between the robot and the battlefield center.
+
+For even faster information collection, you should turn the gun (or even the robot base as well) in the same direction as the radar. Due to [Robocode game physics](https://robowiki.net/wiki/Robocode/Game_Physics), spinning the gun and radar at the same time will give your robot a 65° (20° + 45°) scan arc, instead of a 45° arc.
+
+
+
+
+
 #### Torneos y su estrategia
+
+
 
 ###### 1er torneo
 
@@ -99,11 +132,34 @@ A primary differentiator of movements at the highest level of [1v1](https://robo
 
 Between gathering scans of the enemy every tick and receiving bullet hit events for every bullet that hits you or the enemy, you have a very high amount of information about the battle. About the only thing you are unaware of is the location of enemy bullets that don't/haven't yet hit you or one of your bullets. [Wave Surfing](https://robowiki.net/wiki/Wave_Surfing) movements with [Precise Prediction](https://robowiki.net/wiki/Precise_Prediction) put all of this together to dodge enemy bullets effectively. This is particularly potent against [simple targeters](https://robowiki.net/wiki/Category:Simple_Targeting_Strategies), and is also the most effective form of movement against nearly every other targeting algorithm.
 
+###### 1-vs-1 radar
+
+One on one radars are the smallest of the bunch and many can get a scan in every turn, producing a perfect lock. This simplest lock is:
+
+```
+public void onScannedRobot(ScannedRobotEvent e) {
+    setTurnRadarRight(2.0 * Utils.normalRelativeAngleDegrees(getHeading() + e.getBearing() - getRadarHeading()));
+}
+```
+
+
+
 ###### 3er torneo
 
 Besides moving unpredictably, it's also very important in [Melee](https://robowiki.net/wiki/Melee) to choose a strategically beneficial location. For instance, not being closest to any other bot means that you will likely not be targeted by other bots - this allows you to easily collect survival points and also rack up bullet damage against bots that are not paying attention to you, making them easier targets. Corners tend to be coveted positions in a Melee battle.
 
 You cannot scan the entire battle field every tick in Melee, and Robocode's bullet hit events only fire for bullets that you fire or that hit you, so you have access to a far lower percentage of the total information in the battle. This makes it difficult or impossible to employ precise forms of bullet dodging in Melee. The emphasis, then, is on strategy and moving randomly with respect to the bots most likely to target you.
+
+###### Melee radars
+
+Melee radars are more complex and take up considerably more room inside a robot. Since the field of opponents does not usually fall within a 45° area, compromises must be made between frequent data of one bot (e.g., the firing target) and consistently updated data of all bots. Common melee radars include:
+
+- Spinning radar ‒ Simple but inefficient.
+- Oldest scanned radar ‒ Scan all bots, and then reverse (unless it would be more efficient to not do that). Probably good enough.
+- Optimal radar ‒ Present in all top melee bots. Left as an exercise to the reader.
+- Gun heat lock ‒ Lock on a target before firing, spin otherwise. Some bots do this. / este es el que va
+
+
 
 
 
