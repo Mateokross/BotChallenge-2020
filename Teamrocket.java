@@ -39,7 +39,7 @@ public void onScannedRobot(ScannedRobotEvent e) {
 	double t = 0; // esto es para ver cuanto tiempo queda en el tick
 	double velB = 20 - Potencia*3; //esta es la velocidad de la bala
 	
-	while ((++t) * (velB) < Point2D.Double.distance(mix, miy, pex, pey)){
+	while ((++t) * (velB) < Point2D.Double.distance(mix, miy, pex, pey)){ // devuelve la distancia entre dos puntos
 	// dice que mientras la distancia que puede hacer la bala este turno es menor q la que efectivamente hay
 	pex += Math.sin(ehead) * evel; // Entonces, le calculo donde va a estar el enemy
 	pey += Math.cos(ehead) * evel; // a partir de donde va y su vel
