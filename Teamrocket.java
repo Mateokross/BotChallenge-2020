@@ -4,7 +4,7 @@ import java.awt.geom.*;
 import robocode.util.*;
 import java.lang.Math;
 
-public class TPRO extends AdvancedRobot
+public class Teamrocket extends AdvancedRobot
 {
 int a=0,b=0, c = 100; // confianza
 public void run() {
