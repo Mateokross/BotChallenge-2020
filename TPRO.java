@@ -6,7 +6,7 @@ import java.lang.Math;
 
 public class TPRO extends AdvancedRobot
 {
-public int a=0,b=0, c = 100; // confianza
+int a=0,b=0, c = 100; // confianza
 public void run() {
 	setAdjustGunForRobotTurn(true);// pa desvincular el radar
 	setAdjustRadarForGunTurn(true);
