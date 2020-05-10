@@ -6,6 +6,7 @@ import java.lang.Math;
 
 
 
+
 public class Trucheli extends AdvancedRobot
 {
 
