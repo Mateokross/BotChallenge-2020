@@ -1,6 +1,7 @@
 package teamrocket;
 import robocode.*;
 import java.awt.*;
+import java.lang.Math;
 
 // API help : https://robocode.sourceforge.io/docs/robocode/robocode/AdvancedRobot.html
 
@@ -9,43 +10,43 @@ import java.awt.*;
  */
 public class Mover extends AdvancedRobot
 {
-
-   
 	boolean movingForward;
-	/**
-	 * run: Mover's default behavior
-	 */
+    int wallMargin=50;
+	double leftWall = getX(),rightWall = getBattleFieldWidth()- getX(), bottomWall = getY(), topWall = getBattleFieldHeight()- getY();
+	
+	
+
+
 	public void run() {
-		// Initialization of the robot should be put here
-		//colores
-		//setBodyColor(new Color(255,255,255));
-		//setGunColor(new Color(255,0,0));
-		//setRadarColor(new Color(0,0,0));
-		//setBulletColor(new Color(164,16,201));
-		//setScanColor(new Color(4,0,255));
+
+		//colores del equipo rocket
+		setBodyColor(new Color(255,255,255));
+		setGunColor(new Color(255,0,0));
+		setRadarColor(new Color(0,0,0));
+		setBulletColor(new Color(164,16,201));
+		setScanColor(new Color(4,0,255));
 		
   		 // Create the condition for our custom event
-		   Condition closeToWallCondition = new Condition("closetowall") {
-		       public boolean test() {
-		           return (true);
-		       }
-		   };
+     
+	     addCustomEvent(new Condition("closeToWallCondition"){ //http://mark.random-article.com/robocode/improved_movement.html
+		 public boolean test() {
+		 	return (// we're too close to the left wall
+				(leftWall <= wallMargin ||
+				 // or we're too close to the right wall
+				 rightWall <= wallMargin ||
+				 // or we're too close to the bottom wall
+				 bottomWall <= wallMargin ||
+				 // or we're too close to the top wall
+				 topWall <= wallMargin
+				));
+		 	}
+		});     
 		
-		   // Add our custom event based on our condition
-		   addCustomEvent(closeToWallCondition);
+
 		
 		// Robot main loop
 		while(true) {
-
-		}
-	}
-
-	/**
-	 * closeToWall:  Custom event for avoiding collisions with wall.
-	 */
-
-	public void closeToWallCondition(){
-		// Tell the game we will want to move ahead 40000 -- some large number
+			// Tell the game we will want to move ahead 40000 -- some large number
 		setAhead(40000);
 		movingForward = true;
 		// Tell the game we will want to turn right 90
@@ -68,13 +69,16 @@ public class Mover extends AdvancedRobot
 		// .. and wait for that turn to finish.
 		waitFor(new TurnCompleteCondition(this));
 		// then back to the top to do it all again
+		}
 	}
+
 	
 	/**
 	 * onHitWall:  Handle collision with wall.
 	 */
 	public void onHitWall(HitWallEvent e) {
 		// Bounce off!
+		
 		reverseDirection();
 	}
 
@@ -91,9 +95,34 @@ public class Mover extends AdvancedRobot
 		}
 	}
 
-	/**
-	 * onScannedRobot:  Fire!
-	 */
+	public void onCustomEvent(CustomEvent e) {
+	if (e.getCondition().getName().equals("closeToWallCondition"))
+	{	/*
+		if(leftWalll>rightWall && leftWalll>bottomWall && leftWalll>topWall) {
+			//girar hasta apuntar al sentido contrario a la wall y avnazar
+			while (module(getHeading())<74){
+			TurnRight(20);}
+		}	
+		
+		if(rightWalll>leftWall && rightWalll>bottomWall && rightWalll>topWall) {
+			//girar hasta apuntar al sentido contrario a la wall y avnazar
+			while (module(getHeading())<74){
+			TurnRight(20);}
+		}
+		
+		if(topWalll>rightWall && topWalll>bottomWall && topWalll>leftWall) {
+			//girar hasta apuntar al sentido contrario a la wall y avnazar
+		}
+
+		if(bottomWalll>rightWall && bottomWalll>leftWall && bottomWalll>topWall) {
+			//girar hasta apuntar al sentido contrario a la wall y avnazar
+		}
+
+*/
+
+	}
+}	
+
 	public void onScannedRobot(ScannedRobotEvent e) {
 		//fire(1);
 	}
