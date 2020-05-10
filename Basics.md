@@ -63,7 +63,9 @@
 
 ###### Gun heat
 
+A gun needs to be cool before it can fire. To start a round, a gun's heat is set to 3.0. A fired bullet adds <math>(1.0 + (bullet power / 5))</math> gun heat. The default cooling rate in Robocode is 0.1 per tick.
 
+For instance, firing at the max bullet power of 3.0, a robot can fire once every 16th tick.
 
 ###### Collisions
 
