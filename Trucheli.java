@@ -11,7 +11,7 @@ public class Trucheli extends AdvancedRobot
 		setAdjustRadarForGunTurn(true);
 		setTurnRadarRight(Double.POSITIVE_INFINITY);
 		while(true) {
-	back(0);
+	back(50);
 	setTurnRadarRight(Double.POSITIVE_INFINITY);}
 	}
 	public void onScannedRobot(ScannedRobotEvent e) {
@@ -54,5 +54,5 @@ setTurnRadarRightRadians(Utils.normalRelativeAngle(
     absoluteBearing - getRadarHeadingRadians()));
 setTurnGunRightRadians(Utils.normalRelativeAngle(
     theta - getGunHeadingRadians()));
-fire(3);
+fire(bulletPower);
 }}
