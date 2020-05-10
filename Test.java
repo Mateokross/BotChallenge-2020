@@ -41,7 +41,7 @@ public class Test extends Robot
 	/**
 	 * onHitByBullet: What to do when you're hit by a bullet
 	 */
-	public void onHitByBullet(HitByBulletEvent e) {
+	public void onBulletHit(BulletHitEvent e) {
 		// Replace the next line with any behavior you would like
 		back(10);
 	}
