@@ -11,7 +11,8 @@ public class Trucheli extends AdvancedRobot
 		setAdjustRadarForGunTurn(true);
 		setTurnRadarRight(Double.POSITIVE_INFINITY);
 		while(true) {
-back(0);}
+	back(0);
+	setTurnRadarRight(Double.POSITIVE_INFINITY);}
 	}
 	public void onScannedRobot(ScannedRobotEvent e) {
 	double bulletPower = Math.min(3.0,getEnergy());
