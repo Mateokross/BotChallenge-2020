@@ -7,6 +7,13 @@ import java.lang.Math;
 public class TPRO extends AdvancedRobot
 {
 int a=0,b=0, c = 100; // confianza
+
+//para el radar		
+	double energiaVieja = 100;
+	int direccion = 1;
+	int direcArma;
+//
+
 public void run() {
 	setAdjustGunForRobotTurn(true);// pa desvincular el radar
 	setAdjustRadarForGunTurn(true);
@@ -25,6 +32,21 @@ public void onBulletHit(BulletHitEvent e) {
 	}
 
 public void onScannedRobot(ScannedRobotEvent e) {
+	
+	//estar perpendicular al enemigo
+	setTurnRight(e.getBearing()+90-30*direccion);
+	double cambioEnergia = energiaVieja-e.getEnergy();
+	//esquivas la bala
+	if (cambioEnergia > 0 && cambioEnergia<=3){
+		direccion= direccion*-1;
+		setAhead((e.getDistance()/4+25)*direccion);
+	}
+	//cuandolovolves a encontrar
+	direcArma = direcArma*-1;
+	setTurnGunRight(Double.POSITIVE_INFINITY*direcArma);
+	energiaVieja = e.getEnergy();
+//	
+
 	double PotenciaMax = Math.min(3.0,getEnergy()); // no nos morimos disparando
 	double Potencia = Math.min(PotenciaMax, e.getEnergy()); // no gastamos al pedo
 	double mix = getX();
