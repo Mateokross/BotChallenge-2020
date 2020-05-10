@@ -1,10 +1,3 @@
-/**
- * Copyright (c) 2001-2020 Mathew A. Nelson and Robocode contributors
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * https://robocode.sourceforge.io/license/epl-v10.html
- */
 package teamrocket;
 
 
@@ -15,18 +8,12 @@ import robocode.CustomEvent;
 import java.awt.*;
 
 
-/**
- * Target - a sample robot by Mathew Nelson.
- * <p>
- * Sits still. Moves every time energy drops by 20.
- * This Robot demonstrates custom events.
- *
- * @author Mathew A. Nelson (original)
- * @author Flemming N. Larsen (contributor)
- */
 public class estenoestarget extends AdvancedRobot {
 
 	int trigger; // Keeps track of when to move
+	int wallMargin = 50;
+	double leftWall = getX(),rightWall = getBattleFieldWidth() - getX(), bottomWall = getY(), topWall = getBattleFieldHeight() - getY();
+
 
 	/**
 	 * TrackFire's run method
@@ -40,9 +27,20 @@ public class estenoestarget extends AdvancedRobot {
 		// Initially, we'll move when life hits 80
 		trigger = 80;
 		// Add a custom event named "trigger hit",
-		addCustomEvent(new Condition("triggerhit") {
+		addCustomEvent(new Condition("closetowall") {
 			public boolean test() {
-				return (getEnergy() <= trigger);
+				if(leftWall <= wallMargin ||
+				 // or we're too close to the right wall
+				 rightWall <= wallMargin ||
+				 // or we're too close to the bottom wall
+				 bottomWall <= wallMargin ||
+				 // or we're too close to the top wall
+				 topWall <= wallMargin){
+					return (true);
+				}else{
+					return (false);
+				}
+			
 			}
 		});
 	}
@@ -52,7 +50,7 @@ public class estenoestarget extends AdvancedRobot {
 	 */
 	public void onCustomEvent(CustomEvent e) {
 		// If our custom event "triggerhit" went off,
-		if (e.getCondition().getName().equals("triggerhit")) {
+		if (e.getCondition().getName().equals("closetowall")) {
 			// Adjust the trigger value, or
 			// else the event will fire again and again and again...
 			trigger -= 20;
