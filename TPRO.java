@@ -1,5 +1,6 @@
 package teamrocket;
 import robocode.*;
+import java.awt.*;
 import java.awt.geom.*;
 import robocode.util.*;
 import java.lang.Math;
@@ -15,9 +16,19 @@ int a=0,b=0, c = 100; // confianza
 //
 
 public void run() {
+	
+	//colores del equipo rocket
+		setBodyColor(new Color(255,255,255));
+		setGunColor(new Color(255,0,0));
+		setRadarColor(new Color(4,0,255));
+		setBulletColor(new Color(164,16,201));
+		setScanColor(new Color(4,0,255));
+		
 	setAdjustGunForRobotTurn(true);// pa desvincular el radar
-	setAdjustRadarForGunTurn(true);
-	setTurnRadarRight(Double.POSITIVE_INFINITY);
+	setAdjustRadarForGunTurn(true);// pa desvincular el arma
+	setTurnRadarRight(Double.POSITIVE_INFINITY); // que el radar gire todo el tiempo
+	
+		
 	while(true) {
 		back(50); // aca ponemos el movimiento
 		setTurnRadarRight(Double.POSITIVE_INFINITY);} // esto es por si lo pierde que lo vuelva a encontrar
@@ -35,13 +46,15 @@ public void onScannedRobot(ScannedRobotEvent e) {
 	
 	//estar perpendicular al enemigo
 	setTurnRight(e.getBearing()+90-30*direccion);
-	double cambioEnergia = energiaVieja-e.getEnergy();
+	double cambioEnergia = energiaVieja-e.getEnergy(); //variables que vamos a usar para saber si disparo
+	
 	//esquivas la bala
-	if (cambioEnergia > 0 && cambioEnergia<=3){
-		direccion= direccion*-1;
-		setAhead((e.getDistance()/4+25)*direccion);
-	}
-	//cuandolovolves a encontrar
+	if (cambioEnergia > 0 && cambioEnergia<=3){ //el maximo es 3 para asi no se confunde con eventos que le bajan vida
+		direccion= direccion*-1; //esquivamos la bala
+		setAhead((e.getDistance()/4+25)*direccion); //distancia que nos corremos para esquivar
+	}//si estamos mas cerca nos corremos menos
+	
+	//por si lo habiamos perdido de vista
 	direcArma = direcArma*-1;
 	setTurnGunRight(Double.POSITIVE_INFINITY*direcArma);
 	energiaVieja = e.getEnergy();
@@ -62,11 +75,11 @@ public void onScannedRobot(ScannedRobotEvent e) {
 	double velB = 20 - Potencia*3; //esta es la velocidad de la bala
 	
 	while ((++t) * (velB) < Point2D.Double.distance(mix, miy, pex, pey)){
-	// dice que mientras la distancia que puede hacer la bala este turno es menor q la que efectivamente hay
+	// mientras la distancia que puede hacer la bala este turno es menor q la que efectivamente hay
 	pex += Math.sin(ehead) * evel; // Entonces, le calculo donde va a estar el enemy
 	pey += Math.cos(ehead) * evel; // a partir de donde va y su vel
 	if (pex < 18 || pey < 18 || pex > ancho - 18 || pey > alto - 18)
-	{ // esto dice que si el bot se la esta por dar contra la pared no disparar como siguiese, 18 es la h y w
+	{ // esto dice que si el bot se la esta por dar contra la pared no disparar como si siguiese, 18 es la h y w
 		pex = Math.min(Math.max(18.0, pex), ancho - 18.0);	
 		pey = Math.min(Math.max(18.0, pey), alto - 18.0);
 		break;
@@ -78,6 +91,6 @@ double alfa = Utils.normalAbsoluteAngle(Math.atan2(pex - getX(), pey - getY()));
 setTurnRadarRightRadians(Utils.normalRelativeAngle(pb - getRadarHeadingRadians())); 
 // apunto a donde va a estar al final de t, relativo a donde yo estoy apuntando ahora
 setTurnGunRightRadians(Utils.normalRelativeAngle(alfa - getGunHeadingRadians())); // apunto a donde va a estar cuando le llegue la bala
-fire(Potencia*c/100);
+fire(Potencia*c/100); //disparo
 
 }}
