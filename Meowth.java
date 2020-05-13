@@ -8,12 +8,15 @@ import java.lang.Math;
 public class Meowth extends TeamRobot
 {
 int a=0,b=0, c = 100; // confianza
+boolean inWall = false;
+int missed = 0;
 
 //para el radar		
 	double energiaVieja = 100;
 	int direccion = 1;
-	int direcArma;
+	int direcArma;	
 //
+
 
 public void run() {
 	
@@ -29,38 +32,85 @@ public void run() {
 
 		
 	while(true) {
-	turnRight(-getHeading());
+	
+	
+	if(getY()>25 && inWall==false){
+		turnRight(-getHeading());
+	} else	{
+		turnRight(-getHeading()+90);
+		inWall=true;
+	}
 	if (getHeading() == 0)	{
-	back (getY() - 23);
+		back (getY() - 23);
 	}
-	if (getY() < 25) {
-	setTurnRadarRight(Double.POSITIVE_INFINITY);
-	}
+	//if (getY() < 25) {
+		setTurnRadarRight(Double.POSITIVE_INFINITY);
+	//}
 	}
 	}
 public void onBulletMissed(BulletMissedEvent e) {
 	a = Math.max(c-10,5);
 	c=a;
+	
+	while (missed <4){
+	missed = missed +1;
+	}
+	
+	if (missed>3){
+	direcArma *= -1;
+	turnRadarRight(100*direcArma);
+	missed=0;
+	
+	}
 }	
 public void onBulletHit(BulletHitEvent e) {
+	if (isTeammate(e.getName())){
+	setBack(100*direccion);
+}
 	b = Math.min(c+30,100);
 	c=b;
 	}
+
+public void onHitByBullet(HitByBulletEvent e) {
+	if (getY()>25){
+	setBack(50*direccion);}
+}
+
+public void onHitRobot(HitRobotEvent e) {
+	
+if(getY()>25){
+	if (e.isMyFault()==true){
+		setBack(50*direccion);
+		setTurnRight(90);
+		setAhead(100);
+		setTurnLeft(90);
+		inWall=false;		
+}	else { 
+	setBack(60*direccion);
+}
+	
+	}
+	
+}
 
 public void onScannedRobot(ScannedRobotEvent e) {
 	if (isTeammate(e.getName())) {
 			return;
 		}
 	//estar perpendicular al enemigo
-	setTurnRight(e.getBearing()+90-30*direccion);
+	//setTurnRight(getHeading());
 	double cambioEnergia = energiaVieja-e.getEnergy(); //variables que vamos a usar para saber si disparo
+	
 	
 	//esquivas la bala
 	if (cambioEnergia > 0 && cambioEnergia<=3){ //el maximo es 3 para asi no se confunde con eventos que le bajan vida
+		if (getY()<25){
 		direccion= direccion*-1; //esquivamos la bala
-		setAhead((e.getDistance()/4+25)*direccion); //distancia que nos corremos para esquivar
+		setAhead(100*direccion); //distancia que nos corremos para esquivar
+		}
+
 	}//si estamos mas cerca nos corremos menos
-	
+
 	//por si lo habiamos perdido de vista
 	direcArma = direcArma*-1;
 	setTurnGunRight(Double.POSITIVE_INFINITY*direcArma);
