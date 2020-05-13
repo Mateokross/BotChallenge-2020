@@ -8,7 +8,7 @@ import java.lang.Math;
 public class Meowth extends TeamRobot
 {
 int a=0,b=0, c = 100; // confianza
-boolean inWall = false;
+boolean inWall = false, lastRobot=false;
 int missed = 0;
 
 //para el radar		
@@ -52,13 +52,14 @@ public void onBulletMissed(BulletMissedEvent e) {
 	a = Math.max(c-10,5);
 	c=a;
 	
-	while (missed <4){
+	while (missed <18){
 	missed = missed +1;
 	}
 	
-	if (missed>3){
+	if (missed>17){
 	direcArma *= -1;
 	turnRadarRight(100*direcArma);
+	lastRobot=true;
 	missed=0;
 	
 	}
@@ -142,6 +143,7 @@ public void onScannedRobot(ScannedRobotEvent e) {
 		break;
 	}
 }
+if (lastRobot==false){
 double alfa = Utils.normalAbsoluteAngle(Math.atan2(pex - getX(), pey - getY()));
 // math.atan2 me dice el angulo que forma el eje x con la linea que une los puntos donde estoy y donde va a estar el gil
 // normalabsoluteangle lo pasa a entre 0 y 2pi xq el de arriba va de menos pi a mas pi
@@ -149,4 +151,15 @@ setTurnRadarRightRadians(Utils.normalRelativeAngle(pb - getRadarHeadingRadians()
 // apunto a donde va a estar al final de t, relativo a donde yo estoy apuntando ahora
 setTurnGunRightRadians(Utils.normalRelativeAngle(alfa - getGunHeadingRadians())); // apunto a donde va a estar cuando le llegue la bala
 fire(Potencia*c/100); //disparo
+}	else	{
+	double alfa = Utils.normalAbsoluteAngle(Math.atan2(ex - getX(), ey - getY()));
+// math.atan2 me dice el angulo que forma el eje x con la linea que une los puntos donde estoy y donde va a estar el gil
+// normalabsoluteangle lo pasa a entre 0 y 2pi xq el de arriba va de menos pi a mas pi
+setTurnRadarRightRadians(Utils.normalRelativeAngle(pb - getRadarHeadingRadians())); 
+// apunto a donde va a estar al final de t, relativo a donde yo estoy apuntando ahora
+setTurnGunRightRadians(Utils.normalRelativeAngle(alfa - getGunHeadingRadians())); // apunto a donde va a estar cuando le llegue la bala
+fire(Potencia*c/100); //disparo
+}
+
+
 }}
