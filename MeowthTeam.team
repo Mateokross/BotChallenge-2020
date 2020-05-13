@@ -1,7 +1,7 @@
-#Robocode robot team
-#Tue May 12 16:15:55 ART 2020
-team.members=teamrocket.Meowth*,teamrocket.Meowth*,teamrocket.Meowth*
+#Robocode Robot Team
+#Wed May 13 15:57:35 ART 2020
+team.version=1.1
 team.author.name=
 robocode.version=1.9.3.9
 team.description=asdda
-team.version=1.0
+team.members=teamrocket.Meowth*,teamrocket.Meowth*,teamrocket.Meowth*
