@@ -5,7 +5,7 @@ import java.awt.geom.*;
 import robocode.util.*;
 import java.lang.Math;
 
-public class Meowth extends TeamRobot
+public class Meowth extends AdvancedRobot
 {
 int a=0,b=0, c = 100; // confianza
 boolean inWall = false;
@@ -60,9 +60,7 @@ public void onBulletMissed(BulletMissedEvent e) {
 	}
 	
 public void onBulletHit(BulletHitEvent e) {
-	if (isTeammate(e.getName())){
-	setBack(100*direccion);
-}
+
 	b = Math.min(c+30,100);
 	c=b;
 	}
@@ -90,9 +88,7 @@ if(getY()>25){
 }
 
 public void onScannedRobot(ScannedRobotEvent e) {
-	if (isTeammate(e.getName())) {
-			return;
-		}
+
 	//estar perpendicular al enemigo
 	//setTurnRight(getHeading());
 	double cambioEnergia = energiaVieja-e.getEnergy(); //variables que vamos a usar para saber si disparo
@@ -139,7 +135,7 @@ public void onScannedRobot(ScannedRobotEvent e) {
 		break;
 	}
 }
-if (missed<15){
+if (missed<16){
 double alfa = Utils.normalAbsoluteAngle(Math.atan2(pex - getX(), pey - getY()));
 // math.atan2 me dice el angulo que forma el eje x con la linea que une los puntos donde estoy y donde va a estar el gil
 // normalabsoluteangle lo pasa a entre 0 y 2pi xq el de arriba va de menos pi a mas pi
